@@ -1,0 +1,971 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#0d1117">
+<meta name="description" content="قسمت اول آموزش مبانی هوش محاسباتی — آشنایی کامل و ساده با هوش محاسباتی، شبکه‌های عصبی، منطق فازی و الگوریتم‌های تکاملی">
+<meta name="author" content="مهران غلامی مقدم">
+<title>قسمت ۰۱ — مقدمه‌ای بر هوش محاسباتی و سه ستون آن</title>
+<link rel="icon" href="mehran-favicon.ico" sizes="any">
+<link rel="canonical" href="https://mehran00programmer.github.io/Computational-Intelligence-Learning/part-01.html">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+<div class="reading-progress">
+  <div class="reading-progress-bar"></div>
+</div>
+
+<header class="doc-header">
+  <div class="page">
+    <div class="hero-badge" style="display:inline-block;font-family:var(--mono);font-size:11px;color:var(--accent);letter-spacing:1.5px;background:rgba(88,166,255,0.08);border:1px solid rgba(88,166,255,0.2);padding:4px 12px;border-radius:20px;margin-bottom:14px;">قسمت ۰۱</div>
+    <h1 class="doc-title">مقدمه‌ای بر هوش محاسباتی و سه ستون آن</h1>
+    <p class="doc-subtitle">
+      در این قسمت، ابتدا با مفهوم <bdi>Computational Intelligence</bdi> آشنا
+      می‌شویم و جایگاه آن را در دنیای هوش مصنوعی بررسی می‌کنیم. سپس سه ستون
+      اصلی هوش محاسباتی — یعنی <bdi>Neural Networks</bdi>،
+      <bdi>Fuzzy Logic</bdi> و <bdi>Evolutionary Computation</bdi> — را
+      به‌صورت مفهومی معرفی می‌کنیم و کاربردهای کلیدی آن‌ها را مرور می‌کنیم.
+    </p>
+
+    <div class="author-card">
+      <div class="author-name">مهران غلامی مقدم</div>
+      <a class="author-link" href="https://github.com/Mehran00programmer" target="_blank" rel="noopener noreferrer" aria-label="گیت‌هاب مهران غلامی مقدم">
+        <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+          <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z"/>
+        </svg>
+        github.com/Mehran00programmer
+      </a>
+    </div>
+  </div>
+</header>
+
+<div class="page">
+
+  <aside class="toc-wrap fade-in">
+    <div class="toc-header">فهرست مطالب این قسمت</div>
+    <ul class="toc-list">
+      <li><a class="toc-link" href="#s1"><span class="num">01</span><span>هوش محاسباتی چیست؟</span></a></li>
+      <li><a class="toc-link" href="#s2"><span class="num">02</span><span>جایگاه هوش محاسباتی در هوش مصنوعی</span></a></li>
+      <li><a class="toc-link" href="#s3"><span class="num">03</span><span>سه ستون اصلی هوش محاسباتی</span></a></li>
+      <li><a class="toc-link" href="#s4"><span class="num">04</span><span>شبکه‌های عصبی مصنوعی</span></a></li>
+      <li><a class="toc-link" href="#s5"><span class="num">05</span><span>منطق فازی</span></a></li>
+      <li><a class="toc-link" href="#s6"><span class="num">06</span><span>محاسبات تکاملی</span></a></li>
+      <li><a class="toc-link" href="#s7"><span class="num">07</span><span>کاربردهای هوش محاسباتی</span></a></li>
+      <li><a class="toc-link" href="#s8"><span class="num">08</span><span>مسیر یادگیری و پیش‌نیازها</span></a></li>
+    </ul>
+  </aside>
+
+  <main>
+
+    <!-- ============ SECTION 1 ============ -->
+    <section class="section fade-in" id="s1">
+      <div class="section-head">
+        <span class="section-num">01</span>
+        <h2 class="section-title">هوش محاسباتی چیست؟</h2>
+      </div>
+
+      <h3>یک تشبیه ساده برای شروع</h3>
+      <p>
+        تصور کنید می‌خواهید به یک کودک یاد بدهید که «گرما» چیست. آیا
+        می‌توانید با یک فرمول ریاضی این کار را انجام دهید؟ قطعاً نه. اما
+        می‌توانید چند مثال نشان دهید: «این لیوان چای گرم است»، «این یخ
+        سرد است»، «این بخاری گرم است». کودک با دیدن مثال‌های زیاد، به‌تدریج
+        مفهوم گرما را یاد می‌گیرد.
+      </p>
+
+      <p>
+        <strong>هوش محاسباتی</strong> هم دقیقاً همین‌طور کار می‌کند. به‌جای
+        اینکه همه‌چیز را با فرمول‌های صریح و قوانین سخت بیان کنیم، الگوریتم‌هایی
+        طراحی می‌کنیم که <strong>از داده‌ها یاد بگیرند</strong>،
+        <strong>با عدم قطعیت کنار بیایند</strong> و
+        <strong>خودشان را با محیط تطبیق دهند</strong>.
+      </p>
+
+      <h3>تعریف رسمی</h3>
+      <p>
+        <bdi>Computational Intelligence</bdi> یا <bdi>CI</bdi>، مجموعه‌ای از
+        روش‌های محاسباتی الهام‌گرفته از طبیعت است که برای حل مسائل پیچیده‌ای
+        طراحی شده‌اند که با روش‌های سنتی و قطعی به‌سختی قابل حل هستند.
+      </p>
+
+      <p>
+        به بیان دقیق‌تر، هوش محاسباتی به سه ویژگی کلیدی تکیه می‌کند:
+      </p>
+
+      <ul>
+        <li><strong>یادگیری از داده:</strong> به‌جای برنامه‌نویسی صریح، سیستم از مثال‌ها یاد می‌گیرد.</li>
+        <li><strong>مدیریت عدم قطعیت:</strong> در دنیای واقعی، داده‌ها همیشه دقیق و کامل نیستند.</li>
+        <li><strong>تطبیق‌پذیری:</strong> سیستم می‌تواند با تغییر شرایط خودش را به‌روز کند.</li>
+      </ul>
+
+      <div class="callout note">
+        <span class="callout-label">نکته ساده</span>
+        <p>
+          در برنامه‌نویسی سنتی، شما <strong>قوانین</strong> را می‌نویسید و
+          <strong>داده</strong> را به برنامه می‌دهید تا <strong>پاسخ</strong>
+          بگیرید. در هوش محاسباتی، شما <strong>داده</strong> و
+          <strong>پاسخ‌های نمونه</strong> را می‌دهید تا سیستم خودش
+          <strong>قوانین</strong> را کشف کند.
+        </p>
+      </div>
+
+      <h3>تاریخچه کوتاه</h3>
+      <p>
+        هوش محاسباتی به‌عنوان یک حوزه مستقل، از دهه ۱۹۹۰ میلادی شکل گرفت،
+        اما ریشه‌های آن به دهه ۱۹۴۰ برمی‌گردد:
+      </p>
+
+      <ul>
+        <li><strong>۱۹۴۳:</strong> <bdi>McCulloch</bdi> و <bdi>Pitts</bdi> اولین مدل ریاضی نورون را ارائه دادند.</li>
+        <li><strong>۱۹۵۸:</strong> <bdi>Frank Rosenblatt</bdi> پرسپترون را معرفی کرد.</li>
+        <li><strong>۱۹۶۵:</strong> <bdi>Lotfi Zadeh</bdi> نظریه مجموعه‌های فازی را منتشر کرد.</li>
+        <li><strong>۱۹۷۵:</strong> <bdi>John Holland</bdi> الگوریتم ژنتیک را معرفی کرد.</li>
+        <li><strong>۱۹۸۶:</strong> <bdi>Rumelhart</bdi> و <bdi>Hinton</bdi> الگوریتم پس‌انتشار خطا را عمومی کردند.</li>
+        <li><strong>۱۹۹۴:</strong> اصطلاح <bdi>Computational Intelligence</bdi> به‌طور رسمی رواج یافت.</li>
+        <li><strong>۲۰۰۶:</strong> <bdi>Geoffrey Hinton</bdi> یادگیری عمیق را احیا کرد.</li>
+        <li><strong>۲۰۱۲:</strong> <bdi>AlexNet</bdi> انقلاب یادگیری عمیق را آغاز کرد.</li>
+      </ul>
+
+      <p>
+        امروزه هوش محاسباتی یکی از فعال‌ترین حوزه‌های علوم کامپیوتر است و
+        کاربردهای آن از پزشکی تا خودران‌ها و از مالی تا رباتیک گسترده است.
+      </p>
+    </section>
+
+    <!-- ============ SECTION 2 ============ -->
+    <section class="section fade-in" id="s2">
+      <div class="section-head">
+        <span class="section-num">02</span>
+        <h2 class="section-title">جایگاه هوش محاسباتی در هوش مصنوعی</h2>
+      </div>
+
+      <h3>یک سلسله‌مراتب مهم</h3>
+      <p>
+        یکی از رایج‌ترین اشتباهات مبتدی‌ها، اشتباه گرفتن مفاهیمی مثل
+        <bdi>AI</bdi>، <bdi>ML</bdi>، <bdi>DL</bdi> و <bdi>CI</bdi> است.
+        این مفاهیم به هم مرتبط‌اند اما یکی نیستند. بیایید سلسله‌مراتب را
+        ببینیم:
+      </p>
+
+      <div class="code-block">
+        <div class="code-block-header">
+          <span class="code-block-lang">سلسله مراتب</span>
+        </div>
+        <pre>Artificial Intelligence (AI)
+  └── Machine Learning (ML)
+        ├── Deep Learning (DL)
+        │     ├── CNN, RNN, Transformer
+        │     └── ...
+        └── Computational Intelligence (CI)
+              ├── Neural Networks (classic)
+              ├── Fuzzy Systems
+              └── Evolutionary Computation</pre>
+      </div>
+
+      <h3>هر کدام دقیقاً چه هستند؟</h3>
+
+      <h4>هوش مصنوعی (AI)</h4>
+      <p>
+        <bdi>AI</bdi> بزرگ‌ترین چتر است. هر سیستمی که بتواند کاری انجام دهد
+        که معمولاً به «هوش انسانی» نیاز دارد، در این دسته قرار می‌گیرد.
+        <bdi>AI</bdi> شامل سیستم‌های قاعده‌محور، سیستم‌های خبره، بازی‌های
+        کامپیوتری و... می‌شود.
+      </p>
+
+      <h4>یادگیری ماشین (ML)</h4>
+      <p>
+        <bdi>ML</bdi> زیرمجموعه‌ای از <bdi>AI</bdi> است که در آن سیستم
+        به‌جای برنامه‌نویسی صریح، از داده یاد می‌گیرد. الگوریتم‌های
+        <bdi>ML</bdi> مثل رگرسیون خطی، درخت تصمیم و <bdi>SVM</bdi> در این
+        دسته‌اند.
+      </p>
+
+      <h4>یادگیری عمیق (DL)</h4>
+      <p>
+        <bdi>DL</bdi> زیرمجموعه‌ای از <bdi>ML</bdi> است که بر شبکه‌های
+        عصبی با لایه‌های زیاد تکیه می‌کند. <bdi>CNN</bdi>، <bdi>RNN</bdi>
+        و <bdi>Transformer</bdi> از معروف‌ترین معماری‌های <bdi>DL</bdi>
+        هستند.
+      </p>
+
+      <h4>هوش محاسباتی (CI)</h4>
+      <p>
+        <bdi>CI</bdi> یک نگاه متفاوت به هوش مصنوعی است. این حوزه از
+        <strong>الهام زیستی</strong> استفاده می‌کند — یعنی از نحوه کار
+        مغز، تکامل و رفتار جمعی حیوانات الهام می‌گیرد. سه شاخه اصلی
+        <bdi>CI</bdi> عبارت‌اند از:
+        <bdi>Neural Networks</bdi>، <bdi>Fuzzy Logic</bdi> و
+        <bdi>Evolutionary Computation</bdi>.
+      </p>
+
+      <h3>جدول مقایسه</h3>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>معیار</th><th><bdi>AI</bdi></th><th><bdi>ML</bdi></th><th><bdi>DL</bdi></th><th><bdi>CI</bdi></th></tr>
+          </thead>
+          <tbody>
+            <tr><td>دامنه</td><td>همه‌چیز</td><td>زیرمجموعه AI</td><td>زیرمجموعه ML</td><td>زیرمجموعه ML</td></tr>
+            <tr><td>الهام</td><td>متفاوت</td><td>آماری</td><td>عصبی</td><td>زیستی و طبیعت</td></tr>
+            <tr><td>وابستگی به داده</td><td>کم تا زیاد</td><td>زیاد</td><td>بسیار زیاد</td><td>زیاد</td></tr>
+            <tr><td>تفسیرپذیری</td><td>متغیر</td><td>خوب</td><td>ضعیف</td><td>متوسط</td></tr>
+            <tr><td>کاربرد اصلی</td><td>عمومی</td><td>پیش‌بینی و طبقه‌بندی</td><td>داده‌های پیچیده</td><td>مسائل بهینه‌سازی و کنترل</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout key">
+        <span class="callout-label">نکته مهم</span>
+        <p>
+          <bdi>CI</bdi> با <bdi>AI</bdi> یکی نیست و با <bdi>ML</bdi> هم
+          مترادف نیست. <bdi>CI</bdi> یک <strong>نگاه الهام‌گرفته از
+          طبیعت</strong> است که در دل <bdi>ML</bdi> قرار می‌گیرد و بر
+          الگوریتم‌های زیستی تکیه می‌کند.
+        </p>
+      </div>
+    </section>
+
+    <!-- ============ SECTION 3 ============ -->
+    <section class="section fade-in" id="s3">
+      <div class="section-head">
+        <span class="section-num">03</span>
+        <h2 class="section-title">سه ستون اصلی هوش محاسباتی</h2>
+      </div>
+
+      <h3>یک نگاه کلی</h3>
+      <p>
+        اگر <bdi>CI</bdi> را یک ساختمان در نظر بگیریم، این ساختمان روی سه
+        ستون محکم بنا شده است. هر ستون یک رویکرد متفاوت برای حل مسائل
+        هوشمند ارائه می‌دهد:
+      </p>
+
+      <ul>
+        <li><strong>شبکه‌های عصبی:</strong> الهام از مغز و نورون‌ها — یادگیری از داده</li>
+        <li><strong>منطق فازی:</strong> الهام از نحوه تفکر انسانی — مدیریت عدم قطعیت</li>
+        <li><strong>محاسبات تکاملی:</strong> الهام از تکامل زیستی — بهینه‌سازی</li>
+      </ul>
+
+      <div class="diagram">
+        <svg viewBox="0 0 800 620" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="نمودار سه ستون هوش محاسباتی">
+          <defs>
+            <marker id="mk-ci" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+              <polygon points="0 0, 8 3, 0 6" fill="#58a6ff"/>
+            </marker>
+          </defs>
+
+          <!-- Top box: Computational Intelligence -->
+          <rect x="240" y="30" width="320" height="80" rx="12" fill="#161b22" stroke="#58a6ff" stroke-width="2.5"/>
+          <text x="400" y="65" text-anchor="middle" fill="#e6edf3" font-family="JetBrains Mono, monospace" font-size="18" font-weight="700">Computational Intelligence</text>
+          <text x="400" y="90" text-anchor="middle" fill="#8b949e" font-family="Vazirmatn, sans-serif" font-size="13">هوش محاسباتی</text>
+
+          <!-- Connecting lines -->
+          <line x1="300" y1="115" x2="160" y2="240" stroke="#58a6ff" stroke-width="2" marker-end="url(#mk-ci)"/>
+          <line x1="400" y1="115" x2="400" y2="240" stroke="#58a6ff" stroke-width="2" marker-end="url(#mk-ci)"/>
+          <line x1="500" y1="115" x2="640" y2="240" stroke="#58a6ff" stroke-width="2" marker-end="url(#mk-ci)"/>
+
+          <!-- Pillar 1: Neural Networks -->
+          <rect x="40" y="250" width="240" height="130" rx="12" fill="#161b22" stroke="#3fb950" stroke-width="2.5"/>
+          <text x="160" y="288" text-anchor="middle" fill="#e6edf3" font-family="JetBrains Mono, monospace" font-size="16" font-weight="700">Neural Networks</text>
+          <text x="160" y="312" text-anchor="middle" fill="#8b949e" font-family="Vazirmatn, sans-serif" font-size="12.5">شبکه‌های عصبی</text>
+          <text x="160" y="340" text-anchor="middle" fill="#6e7681" font-family="Vazirmatn, sans-serif" font-size="11.5">یادگیری از داده</text>
+          <text x="160" y="360" text-anchor="middle" fill="#6e7681" font-family="Vazirmatn, sans-serif" font-size="11.5">الهام از مغز</text>
+
+          <!-- Pillar 2: Fuzzy Logic -->
+          <rect x="280" y="250" width="240" height="130" rx="12" fill="#161b22" stroke="#d29922" stroke-width="2.5"/>
+          <text x="400" y="288" text-anchor="middle" fill="#e6edf3" font-family="JetBrains Mono, monospace" font-size="16" font-weight="700">Fuzzy Logic</text>
+          <text x="400" y="312" text-anchor="middle" fill="#8b949e" font-family="Vazirmatn, sans-serif" font-size="12.5">منطق فازی</text>
+          <text x="400" y="340" text-anchor="middle" fill="#6e7681" font-family="Vazirmatn, sans-serif" font-size="11.5">مدیریت عدم قطعیت</text>
+          <text x="400" y="360" text-anchor="middle" fill="#6e7681" font-family="Vazirmatn, sans-serif" font-size="11.5">الهام از تفکر انسانی</text>
+
+          <!-- Pillar 3: Evolutionary Computation -->
+          <rect x="520" y="250" width="240" height="130" rx="12" fill="#161b22" stroke="#f85149" stroke-width="2.5"/>
+          <text x="640" y="288" text-anchor="middle" fill="#e6edf3" font-family="JetBrains Mono, monospace" font-size="16" font-weight="700">Evolutionary Comp.</text>
+          <text x="640" y="312" text-anchor="middle" fill="#8b949e" font-family="Vazirmatn, sans-serif" font-size="12.5">محاسبات تکاملی</text>
+          <text x="640" y="340" text-anchor="middle" fill="#6e7681" font-family="Vazirmatn, sans-serif" font-size="11.5">بهینه‌سازی</text>
+          <text x="640" y="360" text-anchor="middle" fill="#6e7681" font-family="Vazirmatn, sans-serif" font-size="11.5">الهام از تکامل</text>
+
+          <!-- Bottom applications box -->
+          <rect x="120" y="440" width="560" height="130" rx="12" fill="#161b22" stroke="#30363d" stroke-width="1.5" stroke-dasharray="6 4"/>
+          <text x="400" y="475" text-anchor="middle" fill="#e6edf3" font-family="Vazirmatn, sans-serif" font-size="14" font-weight="700">کاربردهای مشترک</text>
+          <text x="400" y="505" text-anchor="middle" fill="#8b949e" font-family="Vazirmatn, sans-serif" font-size="12.5">طبقه‌بندی، پیش‌بینی، بهینه‌سازی، کنترل هوشمند</text>
+          <text x="400" y="530" text-anchor="middle" fill="#8b949e" font-family="Vazirmatn, sans-serif" font-size="12.5">پردازش تصویر، پردازش زبان، تصمیم‌گیری، رباتیک</text>
+          <text x="400" y="555" text-anchor="middle" fill="#6e7681" font-family="Vazirmatn, sans-serif" font-size="11.5">و ده‌ها کاربرد دیگر در پزشکی، مالی، صنعت و...</text>
+
+          <!-- Arrows from pillars to applications -->
+          <line x1="160" y1="385" x2="280" y2="435" stroke="#3fb950" stroke-width="1.5" stroke-dasharray="4 3"/>
+          <line x1="400" y1="385" x2="400" y2="435" stroke="#d29922" stroke-width="1.5" stroke-dasharray="4 3"/>
+          <line x1="640" y1="385" x2="520" y2="435" stroke="#f85149" stroke-width="1.5" stroke-dasharray="4 3"/>
+        </svg>
+        <div class="diagram-caption">
+          سه ستون هوش محاسباتی — هر کدام رویکردی متفاوت برای حل مسائل هوشمند ارائه می‌دهند
+        </div>
+      </div>
+
+      <h3>مقایسه سه ستون</h3>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>ویژگی</th><th>شبکه عصبی</th><th>منطق فازی</th><th>محاسبات تکاملی</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>الهام از</td><td>مغز</td><td>تفکر انسانی</td><td>تکامل زیستی</td></tr>
+            <tr><td>هدف اصلی</td><td>یادگیری</td><td>مدیریت ابهام</td><td>بهینه‌سازی</td></tr>
+            <tr><td>داده مورد نیاز</td><td>زیاد</td><td>کم</td><td>متوسط</td></tr>
+            <tr><td>تفسیرپذیری</td><td>ضعیف</td><td>عالی</td><td>متوسط</td></tr>
+            <tr><td>مثال کاربردی</td><td>تشخیص چهره</td><td>کنترل دما</td><td>مسیریابی</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ============ SECTION 4 ============ -->
+    <section class="section fade-in" id="s4">
+      <div class="section-head">
+        <span class="section-num">04</span>
+        <h2 class="section-title">شبکه‌های عصبی مصنوعی</h2>
+      </div>
+
+      <h3>الهام از مغز</h3>
+      <p>
+        مغز انسان از حدود ۸۶ میلیارد <strong>نورون</strong> تشکیل شده است.
+        هر نورون با هزاران نورون دیگر در ارتباط است و از طریق سیگنال‌های
+        الکتریکی با آن‌ها تبادل اطلاعات می‌کند. شبکه‌های عصبی مصنوعی
+        (<bdi>ANN</bdi>) تلاشی برای شبیه‌سازی این ساختار در کامپیوتر هستند.
+      </p>
+
+      <h3>نورون مصنوعی</h3>
+      <p>
+        ساده‌ترین واحد شبکه عصبی، <strong>نورون مصنوعی</strong> است. این
+        نورون از چند بخش تشکیل شده:
+      </p>
+
+      <ul>
+        <li><strong>ورودی‌ها (x₁, x₂, ..., xₙ):</strong> داده‌هایی که به نورون می‌رسند.</li>
+        <li><strong>وزن‌ها (w₁, w₂, ..., wₙ):</strong> اهمیت هر ورودی.</li>
+        <li><strong>بایاس (b):</strong> یک عدد ثابت که آستانه فعال‌سازی را تنظیم می‌کند.</li>
+        <li><strong>تابع فعال‌سازی (f):</strong> تصمیم می‌گیرد نورون چقدر فعال شود.</li>
+        <li><strong>خروجی (y):</strong> نتیجه نهایی.</li>
+      </ul>
+
+      <p>
+        فرمول ریاضی نورون مصنوعی:
+      </p>
+
+      <div class="code-block">
+        <div class="code-block-header">
+          <span class="code-block-lang">فرمول</span>
+        </div>
+        <pre>y = f(Σ(wᵢ · xᵢ) + b)</pre>
+      </div>
+
+      <h3>پرسپترون — ساده‌ترین شبکه</h3>
+      <p>
+        <bdi>Perceptron</bdi> اولین شبکه عصبی واقعی بود که توسط
+        <bdi>Frank Rosenblatt</bdi> در سال ۱۹۵۸ معرفی شد. این شبکه فقط
+        یک نورون دارد و می‌تواند مسائل <strong>خطی جداپذیر</strong> را حل
+        کند.
+      </p>
+
+      <p>
+        پیاده‌سازی ساده پرسپترون در پایتون:
+      </p>
+
+      <div class="code-block">
+        <div class="code-block-header">
+          <span class="code-block-lang">Python</span>
+        </div>
+        <pre>import numpy as np
+
+class Perceptron:
+    def __init__(self, learning_rate=0.01, n_iters=1000):
+        self.lr = learning_rate
+        self.n_iters = n_iters
+        self.weights = None
+        self.bias = None
+
+    def fit(self, X, y):
+        n_samples, n_features = X.shape
+        self.weights = np.zeros(n_features)
+        self.bias = 0
+
+        for _ in range(self.n_iters):
+            for idx, x_i in enumerate(X):
+                linear_output = np.dot(x_i, self.weights) + self.bias
+                y_predicted = self._step(linear_output)
+                update = self.lr * (y[idx] - y_predicted)
+                self.weights += update * x_i
+                self.bias += update
+
+    def predict(self, X):
+        linear_output = np.dot(X, self.weights) + self.bias
+        return self._step(linear_output)
+
+    def _step(self, x):
+        return np.where(x >= 0, 1, 0)</pre>
+      </div>
+
+      <h3>شبکه‌های چندلایه (MLP)</h3>
+      <p>
+        یک نورون به‌تنهایی توانایی محدودی دارد. اما وقتی چندین نورون را در
+        <strong>لایه‌ها</strong> کنار هم قرار می‌دهیم، شبکه‌ای می‌سازیم که
+        می‌تواند مسائل بسیار پیچیده‌تر را حل کند. به این شبکه‌ها
+        <bdi>Multi-Layer Perceptron</bdi> یا <bdi>MLP</bdi> می‌گویند.
+      </p>
+
+      <p>
+        یک <bdi>MLP</bdi> معمولاً از سه نوع لایه تشکیل می‌شود:
+      </p>
+
+      <ul>
+        <li><strong>لایه ورودی:</strong> داده‌های خام را دریافت می‌کند.</li>
+        <li><strong>لایه‌های مخفی:</strong> الگوها را کشف می‌کنند.</li>
+        <li><strong>لایه خروجی:</strong> پیش‌بینی نهایی را ارائه می‌دهد.</li>
+      </ul>
+
+      <h3>الگوریتم پس‌انتشار خطا</h3>
+      <p>
+        سؤال مهم این است: «چطور وزن‌ها را تنظیم کنیم؟» پاسخ، الگوریتم
+        <bdi>Backpropagation</bdi> یا <strong>پس‌انتشار خطا</strong> است
+        که در سال ۱۹۸۶ توسط <bdi>Rumelhart</bdi> و <bdi>Hinton</bdi>
+        عمومی شد.
+      </p>
+
+      <p>
+        ایده اصلی ساده است: شبکه خروجی می‌دهد، خروجی با مقدار درست مقایسه
+        می‌شود، خطا محاسبه می‌شود، و این خطا به‌صورت معکوس به لایه‌های
+        قبلی منتقل می‌شود تا وزن‌ها اصلاح شوند.
+      </p>
+
+      <ol class="flow">
+        <li>
+          <strong>انتشار رو به جلو</strong>
+          <span>داده از ورودی به خروجی منتقل می‌شود و پیش‌بینی محاسبه می‌شود.</span>
+        </li>
+        <li>
+          <strong>محاسبه خطا</strong>
+          <span>تفاوت بین پیش‌بینی و مقدار واقعی با تابع هزینه محاسبه می‌شود.</span>
+        </li>
+        <li>
+          <strong>پس‌انتشار</strong>
+          <span>خطا به‌صورت معکوس از خروجی به ورودی منتقل می‌شود.</span>
+        </li>
+        <li>
+          <strong>به‌روزرسانی وزن‌ها</strong>
+          <span>وزن‌ها با استفاده از گرادیان کاهشی تنظیم می‌شوند.</span>
+        </li>
+      </ol>
+
+      <div class="callout key">
+        <span class="callout-label">چرا مهم است؟</span>
+        <p>
+          <bdi>Backpropagation</bdi> قلب یادگیری عمیق است. هر مدل مدرنی
+          مثل <bdi>GPT</bdi>، <bdi>ResNet</bdi> یا <bdi>BERT</bdi> از همین
+          الگوریتم استفاده می‌کند. بدون آن، یادگیری شبکه‌های چندلایه
+          ممکن نبود.
+        </p>
+      </div>
+    </section>
+
+    <!-- ============ SECTION 5 ============ -->
+    <section class="section fade-in" id="s5">
+      <div class="section-head">
+        <span class="section-num">05</span>
+        <h2 class="section-title">منطق فازی</h2>
+      </div>
+
+      <h3>مشکل منطق ارسطویی</h3>
+      <p>
+        منطق کلاسیک که از زمان ارسطو به ارث رسیده، فقط دو حالت دارد:
+        <strong>درست</strong> یا <strong>غلط</strong>. صفر یا یک. سفید
+        یا سیاه. اما دنیای واقعی این‌قدر ساده نیست.
+      </p>
+
+      <p>
+        به این سؤال‌ها دقت کنید:
+      </p>
+
+      <ul>
+        <li>آیا هوا گرم است؟ — چند درجه؟ ۲۰ درجه گرم است یا سرد؟</li>
+        <li>آیا این شخص قدبلند است؟ — ۱۸۰ سانت؟ ۱۷۵؟ مرز کجاست؟</li>
+        <li>آیا این تصویر شبیه گربه است؟ — چقدر شبیه؟</li>
+      </ul>
+
+      <p>
+        منطق ارسطویی نمی‌تواند به این سؤال‌ها پاسخ دقیق بدهد چون مرز
+        مشخصی بین «گرم» و «سرد» وجود ندارد. اینجاست که
+        <strong>منطق فازی</strong> وارد می‌شود.
+      </p>
+
+      <h3>منطق فازی چیست؟</h3>
+      <p>
+        <bdi>Fuzzy Logic</bdi> توسط <bdi>Lotfi Zadeh</bdi> در سال ۱۹۶۵
+        معرفی شد. ایده اصلی این است که به‌جای دو مقدار صفر و یک،
+        <strong>درجه عضویت</strong> بین صفر و یک داشته باشیم.
+      </p>
+
+      <p>
+        مثلاً به‌جای گفتن «آیا هوا گرم است؟ بله یا خیر»، می‌گوییم:
+        «هوا با درجه ۰.۷ گرم است». یعنی هوا <strong>تا حدی</strong> گرم
+        است.
+      </p>
+
+      <h3>مجموعه فازی</h3>
+      <p>
+        یک <strong>مجموعه فازی</strong> مثل مجموعه‌های معمولی است، با
+        این تفاوت که هر عضو با یک <strong>درجه عضویت</strong> بین صفر و
+        یک به مجموعه تعلق دارد.
+      </p>
+
+      <div class="code-block">
+        <div class="code-block-header">
+          <span class="code-block-lang">مقایسه</span>
+        </div>
+        <pre>مجموعه کلاسیک:
+  گرم = {30, 31, 32, 33, ...}   ← عضویت کامل یا صفر
+
+مجموعه فازی:
+  گرم = {(20, 0.1), (25, 0.5), (30, 0.9), (35, 1.0)}
+  یعنی ۲۰ درجه با درجه ۰.۱ گرم است، ۲۵ درجه با درجه ۰.۵ گرم است و...</pre>
+      </div>
+
+      <h3>تابع عضویت</h3>
+      <p>
+        <strong>تابع عضویت</strong> مشخص می‌کند که هر مقدار با چه درجه‌ای
+        به یک مجموعه فازی تعلق دارد. رایج‌ترین توابع عضویت:
+      </p>
+
+      <ul>
+        <li><strong>مثلثی (Triangular):</strong> ساده‌ترین و پرکاربردترین.</li>
+        <li><strong>ذوزنقه‌ای (Trapezoidal):</strong> مشابه مثلثی با بالای صاف.</li>
+        <li><strong>گاوسی (Gaussian):</strong> نرم و مناسب برای مدل‌سازی طبیعی.</li>
+        <li><strong>زنگوله‌ای (Bell):</strong> شبیه گاوسی با انعطاف بیشتر.</li>
+      </ul>
+
+      <h3>سیستم استنتاج فازی</h3>
+      <p>
+        یک <bdi>Fuzzy Inference System</bdi> یا <bdi>FIS</bdi> مجموعه‌ای
+        از قوانین «اگر-آنگاه» است که ورودی‌های فازی را به خروجی فازی
+        تبدیل می‌کند. این سیستم از چهار مرحله عبور می‌کند:
+      </p>
+
+      <ol class="flow">
+        <li>
+          <strong>فازی‌سازی</strong>
+          <span>ورودی‌های دقیق به مجموعه‌های فازی تبدیل می‌شوند.</span>
+        </li>
+        <li>
+          <strong>ارزیابی قوانین</strong>
+          <span>قوانین «اگر-آنگاه» روی ورودی‌ها اعمال می‌شوند.</span>
+        </li>
+        <li>
+          <strong>تجمیع</strong>
+          <span>خروجی همه قوانین با هم ترکیب می‌شود.</span>
+        </li>
+        <li>
+          <strong>دی‌فازی‌سازی</strong>
+          <span>خروجی فازی به یک عدد دقیق تبدیل می‌شود.</span>
+        </li>
+      </ol>
+
+      <h3>مثال ساده: کنترل دمای بخاری</h3>
+      <p>
+        فرض کنید می‌خواهیم یک بخاری را به‌صورت هوشمند کنترل کنیم. قوانین
+        فازی می‌توانند این‌طور باشند:
+      </p>
+
+      <div class="code-block">
+        <div class="code-block-header">
+          <span class="code-block-lang">قوانین فازی</span>
+        </div>
+        <pre>اگر دما سرد باشد، سپس قدرت بخاری زیاد باشد
+اگر دما ملایم باشد، سپس قدرت بخاری متوسط باشد
+اگر دما گرم باشد، سپس قدرت بخاری کم باشد
+اگر دما خیلی گرم باشد، سپس بخاری خاموش باشد</pre>
+      </div>
+
+      <p>
+        نکته جالب این است که این قوانین به زبان طبیعی نوشته شده‌اند و
+        کامپیوتر می‌تواند آن‌ها را اجرا کند. این یکی از مزیت‌های بزرگ
+        منطق فازی است: <strong>تفسیرپذیری بالا</strong>.
+      </p>
+
+      <div class="callout note">
+        <span class="callout-label">کاربردهای منطق فازی</span>
+        <p>
+          منطق فازی در کنترل صنعتی، لوازم خانگی (ماشین لباسشویی،
+          یخچال)، خودروهای هوشمند، سیستم‌های تصمیم‌گیری پزشکی،
+          اعتبارسنجی و ده‌ها حوزه دیگر استفاده می‌شود.
+        </p>
+      </div>
+    </section>
+
+    <!-- ============ SECTION 6 ============ -->
+    <section class="section fade-in" id="s6">
+      <div class="section-head">
+        <span class="section-num">06</span>
+        <h2 class="section-title">محاسبات تکاملی</h2>
+      </div>
+
+      <h3>الهام از طبیعت</h3>
+      <p>
+        طبیعت در طول میلیون‌ها سال یک الگوریتم بهینه‌سازی قوی اجرا کرده
+        است: <strong>تکامل</strong>. موجوداتی که بهتر با محیط سازگار
+        شوند، زنده می‌مانند و نسل بعد را تولید می‌کنند. موجوداتی که
+        سازگاری کمتری دارند، حذف می‌شوند.
+      </p>
+
+      <p>
+        <strong>محاسبات تکاملی</strong> یا <bdi>Evolutionary Computation</bdi>
+        تلاشی است برای شبیه‌سازی همین روند در کامپیوتر، به‌عنوان یک
+        الگوریتم بهینه‌سازی.
+      </p>
+
+      <h3>الگوریتم ژنتیک</h3>
+      <p>
+        معروف‌ترین روش در محاسبات تکاملی، <strong>الگوریتم ژنتیک</strong>
+        (<bdi>Genetic Algorithm</bdi>) است که توسط <bdi>John Holland</bdi>
+        در سال ۱۹۷۵ معرفی شد. ایده اصلی این است:
+      </p>
+
+      <ul>
+        <li>یک <strong>جمعیت</strong> از <strong>کروموزوم‌ها</strong> (راه‌حل‌های کاندید) داشته باشیم.</li>
+        <li>هر کروموزوم یک <strong>برازش</strong> (fitness) دارد که کیفیت آن را نشان می‌دهد.</li>
+        <li>کروموزوم‌های بهتر انتخاب می‌شوند و نسل بعد را تولید می‌کنند.</li>
+        <li>نسل بعد با <strong>تقاطع</strong> و <strong>جهش</strong> ساخته می‌شود.</li>
+        <li>این چرخه تکرار می‌شود تا راه‌حل بهینه پیدا شود.</li>
+      </ul>
+
+      <h3>عملگرهای اصلی</h3>
+
+      <h4>۱. انتخاب (Selection)</h4>
+      <p>
+        کروموزوم‌های بهتر باید شانس بیشتری برای تولید نسل بعد داشته
+        باشند. رایج‌ترین روش‌ها:
+      </p>
+
+      <ul>
+        <li><strong>چرخ رولت:</strong> شانس انتخاب هر کروموزوم متناسب با برازش آن است.</li>
+        <li><strong>مسابقه (Tournament):</strong> چند کروموزوم تصادفی انتخاب می‌شوند و بهترین برنده می‌شود.</li>
+        <li><strong>نخبه‌گرایی (Elitism):</strong> بهترین‌ها بدون تغییر به نسل بعد می‌روند.</li>
+      </ul>
+
+      <h4>۲. تقاطع (Crossover)</h4>
+      <p>
+        دو کروموزوم والد ترکیب می‌شوند تا فرزندان جدید بسازند. این کار
+        شبیه ترکیب ژن‌های پدر و مادر در طبیعت است.
+      </p>
+
+      <h4>۳. جهش (Mutation)</h4>
+      <p>
+        گاهی یک ژن به‌صورت تصادفی تغییر می‌کند تا تنوع حفظ شود. این
+        مکانیزم باعث می‌شود الگوریتم در بهینه محلی گیر نکند.
+      </p>
+
+      <h3>شبه‌کد الگوریتم ژنتیک</h3>
+      <div class="code-block">
+        <div class="code-block-header">
+          <span class="code-block-lang">Pseudocode</span>
+        </div>
+        <pre>جمعیت = تولید_جمعیت_اولیه()
+تا زمانی که شرط_توقف_برقرار_نشده:
+    برازش_ها = محاسبه_برازش(جمعیت)
+    والدین = انتخاب(جمعیت, برازش_ها)
+    فرزندان = تقاطع(والدین)
+    فرزندان = جهش(فرزندان)
+    جمعیت = فرزندان
+بهترین = انتخاب_بهترین(جمعیت)
+برگردان بهترین</pre>
+      </div>
+
+      <h3>مثال ساده در پایتون</h3>
+      <div class="code-block">
+        <div class="code-block-header">
+          <span class="code-block-lang">Python</span>
+        </div>
+        <pre>import random
+
+def fitness(chromosome):
+    # هدف: بیشینه کردن مجموع ژن‌ها
+    return sum(chromosome)
+
+def create_population(size, length):
+    return [[random.randint(0, 1) for _ in range(length)]
+            for _ in range(size)]
+
+def select(population):
+    scored = sorted(population, key=fitness, reverse=True)
+    return scored[:len(scored) // 2]
+
+def crossover(parent1, parent2):
+    point = random.randint(1, len(parent1) - 1)
+    child1 = parent1[:point] + parent2[point:]
+    child2 = parent2[:point] + parent1[point:]
+    return child1, child2
+
+def mutate(chromosome, rate=0.1):
+    return [gene if random.random() > rate else 1 - gene
+            for gene in chromosome]
+
+# اجرا
+population = create_population(20, 10)
+for generation in range(50):
+    parents = select(population)
+    children = []
+    for i in range(0, len(parents) - 1, 2):
+        c1, c2 = crossover(parents[i], parents[i + 1])
+        children.extend([mutate(c1), mutate(c2)])
+    population = parents + children
+
+best = max(population, key=fitness)
+print(f"Best: {best}, Fitness: {fitness(best)}")</pre>
+      </div>
+
+      <h3>الگوریتم‌های ازدحامی</h3>
+      <p>
+        زیرشاخه‌ای دیگر از محاسبات تکاملی، از رفتار جمعی حیوانات الهام
+        می‌گیرد:
+      </p>
+
+      <ul>
+        <li><strong>PSO (بهینه‌سازی ازدحام ذرات):</strong> الهام از حرکت دسته‌جمعی پرندگان.</li>
+        <li><strong>ACO (بهینه‌سازی کلونی مورچه):</strong> الهام از مسیریابی مورچه‌ها.</li>
+        <li><strong>ABC (کلونی زنبور عسل):</strong> الهام از جستجوی غذای زنبورها.</li>
+        <li><strong>GWO (گرگ خاکستری):</strong> الهام از شکار گروهی گرگ‌ها.</li>
+      </ul>
+
+      <div class="callout key">
+        <span class="callout-label">نکته مهم</span>
+        <p>
+          محاسبات تکاملی برای مسائل <strong>بهینه‌سازی</strong> عالی است،
+          مخصوصاً وقتی که فضای جستجو بزرگ، پیچیده یا دارای چندین بهینه
+          محلی است و روش‌های سنتی نمی‌توانند راه‌حل خوبی پیدا کنند.
+        </p>
+      </div>
+    </section>
+
+    <!-- ============ SECTION 7 ============ -->
+    <section class="section fade-in" id="s7">
+      <div class="section-head">
+        <span class="section-num">07</span>
+        <h2 class="section-title">کاربردهای هوش محاسباتی</h2>
+      </div>
+
+      <h3>یک نگاه کلی</h3>
+      <p>
+        هوش محاسباتی در دهه‌های اخیر از یک حوزه دانشگاهی به یک فناوری
+        همه‌جا حاضر تبدیل شده است. امروزه کمتر صنعتی را می‌توان پیدا کرد
+        که از این روش‌ها استفاده نکند. در این بخش چند کاربرد مهم را
+        مرور می‌کنیم.
+      </p>
+
+      <h3>۱. پزشکی و سلامت</h3>
+      <ul>
+        <li><strong>تشخیص بیماری:</strong> شبکه‌های عصبی برای تشخیص سرطان از تصاویر پزشکی.</li>
+        <li><strong>پیش‌بینی:</strong> پیش‌بینی احتمال بیماری‌های قلبی از داده‌های بالینی.</li>
+        <li><strong>تصویربرداری:</strong> بخش‌بندی خودکار تومورها در MRI و CT.</li>
+        <li><strong>داروسازی:</strong> کشف داروهای جدید با بهینه‌سازی مولکولی.</li>
+      </ul>
+
+      <h3>۲. مالی و بانکداری</h3>
+      <ul>
+        <li><strong>تشخیص تقلب:</strong> شناسایی تراکنش‌های مشکوک در لحظه.</li>
+        <li><strong>اعتبارسنجی:</strong> ارزیابی ریسک اعتباری مشتریان.</li>
+        <li><strong>پیش‌بینی بازار:</strong> پیش‌بینی قیمت سهام با شبکه‌های عصبی.</li>
+        <li><strong>مدیریت سبد:</strong> بهینه‌سازی سبد سرمایه‌گذاری با الگوریتم‌های تکاملی.</li>
+      </ul>
+
+      <h3>۳. رباتیک و کنترل</h3>
+      <ul>
+        <li><strong>کنترل حرکت:</strong> کنترل مفاصل ربات با منطق فازی.</li>
+        <li><strong>مسیریابی:</strong> یافتن مسیر بهینه با الگوریتم‌های تکاملی.</li>
+        <li><strong>بینایی ماشین:</strong> تشخیص اشیا با شبکه‌های عصبی کانولوشنی.</li>
+        <li><strong>ربات‌های خودگردان:</strong> ترکیب همه روش‌ها برای خودمختاری کامل.</li>
+      </ul>
+
+      <h3>۴. پردازش تصویر و بینایی ماشین</h3>
+      <ul>
+        <li><strong>تشخیص چهره:</strong> شناسایی افراد در تصاویر و ویدئوها.</li>
+        <li><strong>بازسازی تصویر:</strong> حذف نویز و بهبود کیفیت تصاویر.</li>
+        <li><strong>قطب‌بندی:</strong> بخش‌بندی تصاویر به نواحی معنادار.</li>
+      </ul>
+
+      <h3>۵. پردازش زبان طبیعی</h3>
+      <ul>
+        <li><strong>ترجمه ماشینی:</strong> ترجمه خودکار بین زبان‌ها.</li>
+        <li><strong>تحلیل احساسات:</strong> تشخیص مثبت یا منفی بودن متن.</li>
+        <li><strong>خلاصه‌سازی:</strong> خلاصه خودکار متن‌های طولانی.</li>
+      </ul>
+
+      <h3>۶. صنعت و تولید</h3>
+      <ul>
+        <li><strong>کنترل کیفیت:</strong> تشخیص خودکار عیوب محصولات.</li>
+        <li><strong>پیش‌بینی خرابی:</strong> پیش‌بینی زمان خرابی تجهیزات.</li>
+        <li><strong>بهینه‌سازی تولید:</strong> بهینه‌سازی زمان‌بندی خط تولید.</li>
+      </ul>
+
+      <h3>۷. انرژی و محیط زیست</h3>
+      <ul>
+        <li><strong>مدیریت شبکه برق:</strong> توزیع بهینه انرژی.</li>
+        <li><strong>پیش‌بینی آب‌وهوا:</strong> پیش‌بینی دقیق‌تر دما و بارش.</li>
+        <li><strong>کاهش آلودگی:</strong> بهینه‌سازی مسیر خودروها و کاهش مصرف.</li>
+      </ul>
+
+      <div class="callout note">
+        <span class="callout-label">جمع‌بندی</span>
+        <p>
+          هوش محاسباتی امروز در قلب بسیاری از فناوری‌هایی است که هر روز
+          استفاده می‌کنیم. از جستجوی گوگل تا تشخیص چهره در گوشی، از
+          مسیریابی تا ترجمه خودکار — همه از این روش‌ها بهره می‌برند.
+        </p>
+      </div>
+    </section>
+
+    <!-- ============ SECTION 8 ============ -->
+    <section class="section fade-in" id="s8">
+      <div class="section-head">
+        <span class="section-num">08</span>
+        <h2 class="section-title">مسیر یادگیری و پیش‌نیازها</h2>
+      </div>
+
+      <h3>پیش‌نیازهای این دوره</h3>
+      <p>
+        برای اینکه از این جزوه بهترین بهره را ببرید، بهتر است با موارد
+        زیر آشنایی داشته باشید:
+      </p>
+
+      <ul>
+        <li><strong>ریاضیات پایه:</strong> جبر خطی (ماتریس، بردار)، حساب دیفرانسیل (مشتق)</li>
+        <li><strong>آمار و احتمال:</strong> میانگین، واریانس، توزیع نرمال</li>
+        <li><strong>برنامه‌نویسی پایتون:</strong> متغیر، حلقه، تابع، کلاس</li>
+        <li><strong>کتابخانه‌های پایتون:</strong> NumPy و Matplotlib</li>
+      </ul>
+
+      <h3>مسیر پیشنهادی یادگیری</h3>
+      <ol class="flow">
+        <li>
+          <strong>قسمت ۱: مقدمه (همین قسمت)</strong>
+          <span>آشنایی با هوش محاسباتی و سه ستون آن.</span>
+        </li>
+        <li>
+          <strong>قسمت ۲: مبانی ریاضی</strong>
+          <span>مرور جبر خطی و مشتق برای شبکه‌های عصبی.</span>
+        </li>
+        <li>
+          <strong>قسمت ۳: نورون و پرسپترون</strong>
+          <span>ساخت اولین شبکه عصبی از صفر.</span>
+        </li>
+        <li>
+          <strong>قسمت ۴: شبکه‌های چندلایه</strong>
+          <span>MLP و الگوریتم پس‌انتشار خطا.</span>
+        </li>
+        <li>
+          <strong>قسمت ۵: مجموعه‌های فازی</strong>
+          <span>مفاهیم پایه منطق فازی.</span>
+        </li>
+        <li>
+          <strong>قسمت ۶: سیستم‌های استنتاج فازی</strong>
+          <span>ساخت کنترل‌کننده فازی.</span>
+        </li>
+        <li>
+          <strong>قسمت ۷: الگوریتم ژنتیک</strong>
+          <span>بهینه‌سازی با الهام از تکامل.</span>
+        </li>
+        <li>
+          <strong>قسمت ۸: ازدحام ذرات و کلونی مورچه</strong>
+          <span>الگوریتم‌های ازدحامی.</span>
+        </li>
+        <li>
+          <strong>قسمت ۹: ترکیب روش‌ها</strong>
+          <span>سیستم‌های نورو-فازی و تکاملی.</span>
+        </li>
+        <li>
+          <strong>قسمت ۱۰: پروژه پایانی</strong>
+          <span>ساخت یک سیستم هوشمند کامل.</span>
+        </li>
+      </ol>
+
+      <h3>منابع پیشنهادی</h3>
+      <ul>
+        <li><strong>کتاب:</strong> <bdi>Computational Intelligence: An Introduction</bdi> — <bdi>Andries P. Engelbrecht</bdi></li>
+        <li><strong>کتاب:</strong> <bdi>Neural Networks and Learning Machines</bdi> — <bdi>Simon Haykin</bdi></li>
+        <li><strong>کتاب:</strong> <bdi>Fuzzy Logic with Engineering Applications</bdi> — <bdi>Timothy J. Ross</bdi></li>
+        <li><strong>کتاب:</strong> <bdi>Genetic Algorithms in Search, Optimization, and Machine Learning</bdi> — <bdi>David E. Goldberg</bdi></li>
+        <li><strong>کتابخانه:</strong> <bdi>scikit-fuzzy</bdi>، <bdi>DEAP</bdi>، <bdi>PyGAD</bdi> برای پیاده‌سازی عملی</li>
+      </ul>
+
+      <div class="callout key">
+        <span class="callout-label">توصیه</span>
+        <p>
+          یادگیری هوش محاسباتی نیازمند <strong>تمرین مستمر</strong> است.
+          فقط خواندن کافی نیست — حتماً کد بزنید، الگوریتم‌ها را از صفر
+          پیاده‌سازی کنید و روی داده‌های واقعی تست کنید.
+        </p>
+      </div>
+    </section>
+
+    <div class="exercise-box">
+      <div class="exercise-title">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M2 3.5V12a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V3.5"/>
+          <path d="M2 3.5a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1"/>
+          <path d="M5 2v2M11 2v2M5 7h6M5 10h4"/>
+        </svg>
+        تمرین‌های پایان قسمت
+      </div>
+      <ol class="exercise-list">
+        <li>تفاوت هوش مصنوعی، یادگیری ماشین، یادگیری عمیق و هوش محاسباتی را با زبان خودتان توضیح دهید.</li>
+        <li>سه ستون اصلی هوش محاسباتی را نام ببرید و برای هر کدام یک مثال کاربردی از دنیای واقعی بیاورید.</li>
+        <li>یک نورون مصنوعی ساده با دو ورودی طراحی کنید. اگر ورودی‌ها (۱, ۰) و وزن‌ها (۰.۵, ۰.۸) و بایاس ۰.۲ باشند، با تابع فعال‌سازی پله‌ای (step)، خروجی چه می‌شود؟</li>
+        <li>یک تفاوت مهم بین مجموعه کلاسیک و مجموعه فازی را با یک مثال توضیح دهید.</li>
+        <li>سه عملگر اصلی الگوریتم ژنتیک را نام برده و نقش هر کدام را توضیح دهید.</li>
+        <li>به نظر شما چرا الگوریتم ژنتیک در مسائل با فضای جستجوی بزرگ عملکرد خوبی دارد؟ توضیح دهید.</li>
+      </ol>
+    </div>
+
+    <nav class="part-nav">
+      <span class="part-nav-btn disabled">
+        <span class="arrow">&#8594;</span>
+        قسمت قبلی
+      </span>
+      <a class="part-nav-btn home" href="index.html">
+        فهرست مطالب
+      </a>
+      <a class="part-nav-btn" href="part-02.html">
+        قسمت بعدی
+        <span class="arrow">&#8592;</span>
+      </a>
+    </nav>
+
+  </main>
+</div>
+
+<footer class="doc-footer">
+  <div class="footer-name">مهران غلامی مقدم</div>
+  <div>
+    <a class="footer-link" href="https://github.com/Mehran00programmer" target="_blank" rel="noopener noreferrer">github.com/Mehran00programmer</a>
+  </div>
+</footer>
+
+<button class="back-to-top" type="button" aria-label="بازگشت به بالا">
+  <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M8 13V3"/>
+    <polyline points="3 8 8 3 13 8"/>
+  </svg>
+</button>
+
+<button class="theme-toggle" type="button" aria-label="تغییر تم">
+  <svg class="icon-moon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M14 9.5A6 6 0 0 1 6.5 2 6 6 0 1 0 14 9.5z"/>
+  </svg>
+  <svg class="icon-sun" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="8" cy="8" r="3"/>
+    <path d="M8 1v2M8 13v2M1 8h2M13 8h2M3 3l1.5 1.5M11.5 11.5L13 13M13 3l-1.5 1.5M4.5 11.5L3 13"/>
+  </svg>
+</button>
+
+<script src="assets/app.js"></script>
+
+</body>
+        </html>
